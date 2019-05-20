@@ -105,7 +105,7 @@ namespace mdsplib
             mLengthHalf = (mLengthTotal / 2) + 1;
 
             // Set the overall scale factor for all the terms
-            mFFTScale = Math.Sqrt(2) / (double)(mLengthTotal);                // Natural FFT Scale Factor                                           // Window Scale Factor
+            mFFTScale = Math.Sqrt(2) / (double)(mLengthTotal);                // Natural FFT Scale Factor  // Window Scale Factor
             mFFTScale *= ((double)mLengthTotal) / (double)inputDataLength;    // Zero Padding Scale Factor
 
             // Allocate elements for linked list of complex numbers.
@@ -122,28 +122,51 @@ namespace mdsplib
                 mX[k].revTgt = BitReverse(k, mLogN);
         }
 
-
         /// <summary>
         /// Executes a FFT of the input time series.
         /// </summary>
         /// <param name="timeSeries"></param>
         /// <returns>Complex[] Spectrum</returns>
-        public Complex[] Execute(double[] timeSeries)
+        public Complex[] Direct(double[] timeSeries)
+        {
+            Complex[] c = new Complex[timeSeries.Length];
+            for (int i = 0; i < timeSeries.Length; i++)
+                c[i] = new Complex(timeSeries[i], 0);
+
+            return Execute(c);
+        }
+
+        public Complex[] Inverse(Complex[] series)
+        {
+            Complex[] c = new Complex[series.Length];
+            for (int i = 0; i < series.Length; i++)
+                c[i] = new Complex(series[i].Imaginary, series[i].Real);
+
+            return Execute(c, false);
+        }
+
+        /// <summary>
+        /// Executes a FFT 
+        /// </summary>
+        /// <param name="series"></param>
+        /// <returns>Complex[] Spectrum</returns>
+        private Complex[] Execute(Complex[] series, bool direct = true)
         {
             UInt32 numFlies = mLengthTotal >> 1;  // Number of butterflies per sub-FFT
             UInt32 span = mLengthTotal >> 1;      // Width of the butterfly
             UInt32 spacing = mLengthTotal;        // Distance between start of sub-FFTs
             UInt32 wIndexStep = 1;          // Increment for twiddle table index
 
-            Debug.Assert(timeSeries.Length <= mLengthTotal, "The input timeSeries length was greater than the total number of points that was initialized. FFT.Exectue()");
+            Debug.Assert(series.Length <= mLengthTotal,
+                "The input timeSeries length was greater than the total number of points that was initialized. FFT.Execute()");
 
             // Copy data into linked complex number objects
             FFTElement x = mX[0];
             UInt32 k = 0;
             for (UInt32 i = 0; i < mN; i++)
             {
-                x.re = timeSeries[k];
-                x.im = 0.0;
+                x.re = series[k].Real;
+                x.im = series[k].Imaginary;
                 x = x.next;
                 k++;
             }
@@ -229,20 +252,23 @@ namespace mdsplib
             while (x != null)
             {
                 UInt32 target = x.revTgt;
-                unswizzle[target] = new Complex(x.re * mFFTScale, x.im * mFFTScale);
+                unswizzle[target] = direct ? 
+                    new Complex(x.re * mFFTScale, x.im * mFFTScale) : 
+                    new Complex(x.im, x.re);
                 x = x.next;
             }
 
-            // Return 1/2 the FFT result from DC to Fs/2 (The real part of the spectrum)
-            //UInt32 halfLength = ((mN + mZp) / 2) + 1;
-            Complex[] result = new Complex[mLengthHalf];
-            Array.Copy(unswizzle, result, mLengthHalf);
+            return unswizzle;
 
-            // DC and Fs/2 Points are scaled differently, since they have only a real part
-            result[0] = new Complex(result[0].Real / Math.Sqrt(2), 0.0);
-            result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
+            //// Return 1/2 the FFT result from DC to Fs/2 (The real part of the spectrum)
+            ////UInt32 halfLength = ((mN + mZp) / 2) + 1;
+            //Complex[] result = new Complex[mLengthHalf];
+            //Array.Copy(unswizzle, result, mLengthHalf);
 
-            return result;
+            //// DC and Fs/2 Points are scaled differently, since they have only a real part
+            //result[0] = new Complex(result[0].Real / Math.Sqrt(2), 0.0);
+            //result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
+            //return result;
         }
 
         #region Private FFT Routines

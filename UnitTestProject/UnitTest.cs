@@ -269,7 +269,7 @@ namespace UnitTestProject
             fft.Initialize(length);
 
             // Call the FFT and get the scaled spectrum back
-            Complex[] cSpectrum = fft.Execute(wInputData);
+            Complex[] cSpectrum = fft.Direct(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Squared Format
             // See text for the reasons to use Mag^2 format.
@@ -304,7 +304,7 @@ namespace UnitTestProject
             fft.Initialize(length, length * 3);           // Zero Padding = 1024 * 3
 
             // Call the FFT and get the scaled spectrum back
-            Complex[] cSpectrum = fft.Execute(wInputData);
+            Complex[] cSpectrum = fft.Direct(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Squared Format
             // See text for the reasons to use Mag^2 format.
@@ -344,8 +344,8 @@ namespace UnitTestProject
                 inputSignalPhase = DSP.Math.Multiply(inputSignalPhase, wCoeff);
 
                 // Call the DFT and get the scaled spectrum back of a reference and a phase shifted signal.
-                Complex[] cSpectrumRef = fft.Execute(inputSignalRef);
-                Complex[] cSpectrumPhase = fft.Execute(inputSignalPhase);
+                Complex[] cSpectrumRef = fft.Direct(inputSignalRef);
+                Complex[] cSpectrumPhase = fft.Direct(inputSignalPhase);
 
                 // Magnitude Format - Just as a test point
                 double[] lmSpectrumTest = DSP.ConvertComplex.ToMagnitude(cSpectrumRef);
@@ -359,5 +359,23 @@ namespace UnitTestProject
             }
             unwrapPhase = DSP.Analyze.UnwrapPhaseDegrees(resultPhase);
         }
+
+        [TestMethod]
+        public void DirectInverse()
+        {
+            UInt32 length = 2048;
+
+            FFT fft = new FFT();
+            fft.Initialize(length);
+
+            double[] wCoeff = DSP.Window.Coefficients(DSP.Window.Type.Hann, length);
+            double[] inputSignal = DSP.Generate.ToneSampling(1.0, 4000, 44100, length);
+            double[] inputSignalRef = DSP.Math.Multiply(inputSignal, wCoeff);
+
+            Complex[] cSpectrum = fft.Direct(inputSignalRef);
+            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            Complex[] cSpectrumI = fft.Inverse(cSpectrum);
+        }
+
     }
 }
