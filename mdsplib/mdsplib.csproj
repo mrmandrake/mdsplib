@@ -2,14 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.1-alpha</Version>
+    <Version>1.2.0-alpha</Version>
     <Authors>mr mandrake</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>DFT / iDFT &amp; FFT / iFFT lib
-Based on excellent DSPLIB of Steve Hageman</Description>
+Based on excellent DSPLIB (Steve Hageman)</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>mr mandrake 2019</Copyright>
+    <Product>manovella dsp library</Product>
   </PropertyGroup>
 
   <ItemGroup>

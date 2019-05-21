@@ -1,0 +1,8 @@
+LIBRARY libIp_xfft_v9_1_bitacc_cmodel.dll
+
+EXPORTS 
+
+xilinx_ip_xfft_v9_1_bitacc_simulate @1
+xilinx_ip_xfft_v9_1_create_state @2
+xilinx_ip_xfft_v9_1_destroy_state @3
+xilinx_ip_xfft_v9_1_get_default_generics @4

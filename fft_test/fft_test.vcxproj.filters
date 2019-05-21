@@ -13,10 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="xilinx">
+      <UniqueIdentifier>{30228fbe-67fd-421c-9761-c6e70552b596}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fft_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fftaccmodel.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xilinx\xfft_v9_1_bitacc_cmodel.h">
+      <Filter>xilinx</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="xilinx\libIp_xfft_v9_1_bitacc_cmodel.dll">
+      <Filter>xilinx</Filter>
+    </None>
   </ItemGroup>
 </Project>
