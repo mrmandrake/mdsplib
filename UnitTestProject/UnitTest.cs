@@ -1,7 +1,9 @@
-using mdsplib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Numerics;
+using mdsplib;
+using mdsplib.DSP;
+
 
 namespace UnitTestProject
 {
@@ -20,7 +22,7 @@ namespace UnitTestProject
             UInt32 length = 1000;
             double samplingRate = 100000;
 
-            double[] inputSignal = DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
 
             // Instantiate a new DFT
             DFT dft = new DFT();
@@ -33,13 +35,13 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(inputSignal);
 
             // Convert the complex spectrum to magnitude
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
 
             // Note: At this point lmSpectrum is a 501 byte array that 
             // contains a properly scaled Spectrum from 0 - 50,000 Hz
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = dft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -55,12 +57,12 @@ namespace UnitTestProject
             double amplitude = 1.0; double frequency = 20000;
             UInt32 length = 1000;
             double samplingRate = 100000;
-            double[] inputSignal = DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
 
             // Apply window to the Input Data & calculate Scale Factor
-            double[] wCoefs = DSP.Window.Coefficients(DSP.Window.Type.Hamming, length);
-            double[] wInputData = DSP.Math.Multiply(inputSignal, wCoefs);
-            double wScaleFactor = DSP.Window.ScaleFactor.Signal(wCoefs);
+            double[] wCoefs = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.Hamming, length);
+            double[] wInputData = mdsplib.DSP.Math.Multiply(inputSignal, wCoefs);
+            double wScaleFactor = mdsplib.DSP.Window.ScaleFactor.Signal(wCoefs);
 
             // Instantiate & Initialize a new DFT
             DFT dft = new DFT();
@@ -70,13 +72,13 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Format
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
 
             // Properly scale the spectrum for the added window
-            lmSpectrum = DSP.Math.Multiply(lmSpectrum, wScaleFactor);
+            lmSpectrum = mdsplib.DSP.Math.Multiply(lmSpectrum, wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = dft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -89,12 +91,12 @@ namespace UnitTestProject
             // Same Input Signal as Example 1, except 5 Vrms amplitude
             double amplitude = 5.0; double frequency = 20000;
             UInt32 length = 1000; double samplingRate = 100000;
-            double[] inputSignal = DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
 
             // Apply window to the Input Data & calculate Scale Factor
-            double[] wCoefs = DSP.Window.Coefficients(DSP.Window.Type.FTHP, length);
-            double[] wInputData = DSP.Math.Multiply(inputSignal, wCoefs);
-            double wScaleFactor = DSP.Window.ScaleFactor.Signal(wCoefs);
+            double[] wCoefs = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.FTHP, length);
+            double[] wInputData = mdsplib.DSP.Math.Multiply(inputSignal, wCoefs);
+            double wScaleFactor = mdsplib.DSP.Window.ScaleFactor.Signal(wCoefs);
 
             // Instantiate & Initialize a new DFT w/Zero Padding (5000 points)
             DFT dft = new DFT();
@@ -104,13 +106,13 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Format
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
 
             // Properly scale the spectrum for the added window
-            lmSpectrum = DSP.Math.Multiply(lmSpectrum, wScaleFactor);
+            lmSpectrum = mdsplib.DSP.Math.Multiply(lmSpectrum, wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = dft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -125,12 +127,12 @@ namespace UnitTestProject
             // Same Input Signal as Example 1, except amplitude is 5 Vrms.
             double amplitude = 5.0; double frequency = 20000;
             UInt32 length = 1000; double samplingRate = 100000;
-            double[] inputSignal = DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
 
             // Apply window to the Input Data & calculate Scale Factor
-            double[] wCoefs = DSP.Window.Coefficients(DSP.Window.Type.FTHP, length);
-            double[] wInputData = DSP.Math.Multiply(inputSignal, wCoefs);
-            double wScaleFactor = DSP.Window.ScaleFactor.Signal(wCoefs);
+            double[] wCoefs = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.FTHP, length);
+            double[] wInputData = mdsplib.DSP.Math.Multiply(inputSignal, wCoefs);
+            double wScaleFactor = mdsplib.DSP.Window.ScaleFactor.Signal(wCoefs);
 
             // Instantiate & Initialize a new DFT
             DFT dft = new DFT();
@@ -140,16 +142,16 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Format
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
 
             // Properly scale the spectrum for the added window
-            lmSpectrum = DSP.Math.Multiply(lmSpectrum, wScaleFactor);
+            lmSpectrum = mdsplib.DSP.Math.Multiply(lmSpectrum, wScaleFactor);
 
             // Convert from linear magnitude to log magnitude format
-            double[] logMagSpectrum = DSP.ConvertMagnitude.ToMagnitudeDBV(lmSpectrum);
+            double[] logMagSpectrum = mdsplib.DSP.Convert.Magnitude.ToMagnitudeDBV(lmSpectrum);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = dft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -165,11 +167,9 @@ namespace UnitTestProject
             double amplitude = 5.0e-9;
             UInt32 length = 1000; double samplingRate = 2000;
 
-
             // Generate window & calculate Scale Factor for NOISE!
-            double[] wCoefs = DSP.Window.Coefficients(DSP.Window.Type.Hamming, length);
-
-            double wScaleFactor = DSP.Window.ScaleFactor.Noise(wCoefs, samplingRate);
+            double[] wCoefs = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.Hamming, length);
+            double wScaleFactor = mdsplib.DSP.Window.ScaleFactor.Noise(wCoefs, samplingRate);
 
             // Instantiate & Initialize a new DFT
             DFT dft = new DFT();
@@ -181,29 +181,29 @@ namespace UnitTestProject
             for (Int32 i = 0; i < N; i++)
             {
                 // Generate the noise signal & apply window
-                double[] inputSignal = DSP.Generate.NoisePsd(amplitude, samplingRate, length);
-                inputSignal = DSP.Math.Multiply(inputSignal, wCoefs);
+                double[] inputSignal = mdsplib.DSP.Generate.NoisePsd(amplitude, samplingRate, length);
+                inputSignal = mdsplib.DSP.Math.Multiply(inputSignal, wCoefs);
 
                 // DFT the noise -> Convert -> Sum
                 Complex[] cSpectrum = dft.Execute(inputSignal);
-                double[] mag2 = DSP.ConvertComplex.ToMagnitudeSquared(cSpectrum);
+                double[] mag2 = mdsplib.DSP.Convert.Complex.ToMagnitudeSquared(cSpectrum);
 
                 if (N == 0)
-                    noiseSum = DSP.Math.Add(noiseSum, 0);
+                    noiseSum = mdsplib.DSP.Math.Add(noiseSum, 0);
                 else
-                    noiseSum = DSP.Math.Add(noiseSum, mag2);
+                    noiseSum = mdsplib.DSP.Math.Add(noiseSum, mag2);
             }
 
             // Calculate Average, convert to magnitude format
             // See text for the reasons to use Mag^2 format.
-            double[] averageNoise = DSP.Math.Divide(noiseSum, N);
-            double[] lmSpectrum = DSP.ConvertMagnitudeSquared.ToMagnitude(averageNoise);
+            double[] averageNoise = mdsplib.DSP.Math.Divide(noiseSum, N);
+            double[] lmSpectrum = mdsplib.DSP.Convert.MagnitudeSquared.ToMagnitude(averageNoise);
 
             // Properly scale the spectrum for the added window
-            lmSpectrum = DSP.Math.Multiply(lmSpectrum, wScaleFactor);
+            lmSpectrum = mdsplib.DSP.Math.Multiply(lmSpectrum, wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = dft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -211,7 +211,7 @@ namespace UnitTestProject
 
             // Extra Credit - Analyze Plot Data Ignoring the first and last 20 Bins
             // Average value should be what we generated = 5.0e-9 Vrms / rt-Hz
-            double averageValue = DSP.Analyze.FindMean(lmSpectrum, 20, 20);
+            double averageValue = mdsplib.DSP.Analyze.FindMean(lmSpectrum, 20, 20);
         }
 
         [TestMethod]
@@ -226,8 +226,8 @@ namespace UnitTestProject
 
             for (Int32 phase = 0; phase < 360; phase++)
             {
-                double[] inputSignalRef = DSP.Generate.ToneCycles(7.0, 128, 2048);
-                double[] inputSignalPhase = DSP.Generate.ToneCycles(7.0, 128, 2048, phaseDeg: phase);
+                double[] inputSignalRef = mdsplib.DSP.Generate.ToneCycles(7.0, 128, 2048);
+                double[] inputSignalPhase = mdsplib.DSP.Generate.ToneCycles(7.0, 128, 2048, phaseDeg: phase);
 
                 // Call the DFT and get the scaled spectrum back of a reference and a phase shifted signal.
                 Complex[] cSpectrumRef = dft.Execute(inputSignalRef);
@@ -238,8 +238,8 @@ namespace UnitTestProject
                 //double[] lmSpectrumTestPhase = DSPLib.DSP.ConvertComplex.ToMagnitude(cSpectrumPhase);
 
                 // Extract the phase of bin 128
-                double[] resultArrayRef = DSP.ConvertComplex.ToPhaseDegrees(cSpectrumRef);
-                double[] resultArrayPhase = DSP.ConvertComplex.ToPhaseDegrees(cSpectrumPhase);
+                double[] resultArrayRef = mdsplib.DSP.Convert.Complex.ToPhaseDegrees(cSpectrumRef);
+                double[] resultArrayPhase = mdsplib.DSP.Convert.Complex.ToPhaseDegrees(cSpectrumPhase);
                 resultPhase[phase] = resultArrayPhase[128] - resultArrayRef[128];
             }
 
@@ -257,12 +257,12 @@ namespace UnitTestProject
             // Same Input Signal as Example 1, except everything is a power of two
             double amplitude = 1.0; double frequency = 32768;
             UInt32 length = 1024; double samplingRate = 131072;
-            double[] inputSignal = DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
 
             // Apply window to the Input Data & calculate Scale Factor
-            double[] wCoefs = DSP.Window.Coefficients(DSP.Window.Type.Hamming, length);
-            double[] wInputData = DSP.Math.Multiply(inputSignal, wCoefs);
-            double wScaleFactor = DSP.Window.ScaleFactor.Signal(wCoefs);
+            double[] wCoefs = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.Hamming, length);
+            double[] wInputData = mdsplib.DSP.Math.Multiply(inputSignal, wCoefs);
+            double wScaleFactor = mdsplib.DSP.Window.ScaleFactor.Signal(wCoefs);
 
             // Instantiate & Initialize a new DFT
             FFT fft = new FFT();
@@ -273,13 +273,13 @@ namespace UnitTestProject
 
             // Convert the complex spectrum to note: Magnitude Squared Format
             // See text for the reasons to use Mag^2 format.
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
 
             // Properly scale the spectrum for the added window
-            lmSpectrum = DSP.Math.Multiply(lmSpectrum, wScaleFactor);
+            lmSpectrum = mdsplib.DSP.Math.Multiply(lmSpectrum, wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = fft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -292,29 +292,29 @@ namespace UnitTestProject
             // Same Input Signal as Example 1, except everything is a power of two
             double amplitude = 1.0; double frequency = 32768;
             UInt32 length = 1024; double samplingRate = 131072;
-            double[] inputSignal = DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(amplitude, frequency, samplingRate, length);
 
             // Apply window to the Input Data & calculate Scale Factor
-            double[] wCoefs = DSP.Window.Coefficients(DSP.Window.Type.Hamming, length);
-            double[] wInputData = DSP.Math.Multiply(inputSignal, wCoefs);
-            double wScaleFactor = DSP.Window.ScaleFactor.Signal(wCoefs);
+            double[] wCoefs = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.Hamming, length);
+            double[] wInputData = mdsplib.DSP.Math.Multiply(inputSignal, wCoefs);
+            double wScaleFactor = mdsplib.DSP.Window.ScaleFactor.Signal(wCoefs);
 
             // Instantiate & Initialize a new DFT
             FFT fft = new FFT();
-            fft.Initialize(length, length * 3);           // Zero Padding = 1024 * 3
+            fft.Initialize(length, length * 3); // Zero Padding = 1024 * 3
 
             // Call the FFT and get the scaled spectrum back
             Complex[] cSpectrum = fft.Direct(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Squared Format
             // See text for the reasons to use Mag^2 format.
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
 
             // Properly scale the spectrum for the added window
-            lmSpectrum = DSP.Math.Multiply(lmSpectrum, wScaleFactor);
+            lmSpectrum = mdsplib.DSP.Math.Multiply(lmSpectrum, wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = fft.FrequencySpan(samplingRate);
+            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -329,7 +329,7 @@ namespace UnitTestProject
             double[] unwrapPhase = new double[600];
 
             UInt32 length = 2048;
-            double[] wCoeff = DSP.Window.Coefficients(DSP.Window.Type.FTHP, length);
+            double[] wCoeff = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.FTHP, length);
 
             // Instantiate & Initialize a new DFT
             FFT fft = new FFT();
@@ -337,27 +337,26 @@ namespace UnitTestProject
 
             for (Int32 phase = 0; phase < 600; phase++)
             {
-                double[] inputSignalRef = DSP.Generate.ToneCycles(7.0, 128, length, phaseDeg: 45.0);
-                double[] inputSignalPhase = DSP.Generate.ToneCycles(7.0, 128, length, phaseDeg: phase);
+                double[] inputSignalRef = mdsplib.DSP.Generate.ToneCycles(7.0, 128, length, phaseDeg: 45.0);
+                double[] inputSignalPhase = mdsplib.DSP.Generate.ToneCycles(7.0, 128, length, phaseDeg: phase);
 
-                inputSignalRef = DSP.Math.Multiply(inputSignalRef, wCoeff);
-                inputSignalPhase = DSP.Math.Multiply(inputSignalPhase, wCoeff);
+                inputSignalRef = mdsplib.DSP.Math.Multiply(inputSignalRef, wCoeff);
+                inputSignalPhase = mdsplib.DSP.Math.Multiply(inputSignalPhase, wCoeff);
 
                 // Call the DFT and get the scaled spectrum back of a reference and a phase shifted signal.
                 Complex[] cSpectrumRef = fft.Direct(inputSignalRef);
                 Complex[] cSpectrumPhase = fft.Direct(inputSignalPhase);
 
                 // Magnitude Format - Just as a test point
-                double[] lmSpectrumTest = DSP.ConvertComplex.ToMagnitude(cSpectrumRef);
-                UInt32 peakLocation = DSP.Analyze.FindMaxPosition(lmSpectrumTest);
+                double[] lmSpectrumTest = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrumRef);
+                UInt32 peakLocation = mdsplib.DSP.Analyze.FindMaxPosition(lmSpectrumTest);
 
                 // Extract the phase of 'peak value' bin
-                double[] resultArrayRef = DSP.ConvertComplex.ToPhaseDegrees(cSpectrumRef);
-                double[] resultArrayPhase = DSP.ConvertComplex.ToPhaseDegrees(cSpectrumPhase);
+                double[] resultArrayRef = mdsplib.DSP.Convert.Complex.ToPhaseDegrees(cSpectrumRef);
+                double[] resultArrayPhase = mdsplib.DSP.Convert.Complex.ToPhaseDegrees(cSpectrumPhase);
                 resultPhase[phase] = resultArrayPhase[peakLocation] - resultArrayRef[peakLocation];
-
             }
-            unwrapPhase = DSP.Analyze.UnwrapPhaseDegrees(resultPhase);
+            unwrapPhase = mdsplib.DSP.Analyze.UnwrapPhaseDegrees(resultPhase);
         }
 
         [TestMethod]
@@ -368,14 +367,22 @@ namespace UnitTestProject
             FFT fft = new FFT();
             fft.Initialize(length);
 
-            double[] wCoeff = DSP.Window.Coefficients(DSP.Window.Type.Hann, length);
-            double[] inputSignal = DSP.Generate.ToneSampling(1.0, 4000, 44100, length);
-            double[] inputSignalRef = DSP.Math.Multiply(inputSignal, wCoeff);
+            double[] wCoeff = mdsplib.DSP.Window.Coefficients(mdsplib.DSP.Window.Type.Hann, length);
+            double[] inputSignal = mdsplib.DSP.Generate.ToneSampling(1.0, 4000, 44100, length);
+            double[] inputSignalRef = mdsplib.DSP.Math.Multiply(inputSignal, wCoeff);
 
             Complex[] cSpectrum = fft.Direct(inputSignalRef);
-            double[] lmSpectrum = DSP.ConvertComplex.ToMagnitude(cSpectrum);
+            double[] lmSpectrum = mdsplib.DSP.Convert.Complex.ToMagnitude(cSpectrum);
             Complex[] cSpectrumI = fft.Inverse(cSpectrum);
         }
 
+        [TestMethod]
+        public void STFTTest()
+        {
+            UInt32 fs = 44100;
+            double[] wavein = mdsplib.DSP.Generate.Sine(110, fs, 2048);
+            var stft = STFT.Direct(wavein);
+            double[] reconst = STFT.Inverse(stft);
+        }
     }
 }

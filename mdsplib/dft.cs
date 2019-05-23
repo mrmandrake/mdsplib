@@ -6,8 +6,6 @@ using System.Diagnostics;
 namespace mdsplib
 {
 
-    #region =====[ DFT Core Class ]======================================================
-
     /// <summary>
     /// DFT Base Class
     /// </summary>
@@ -17,8 +15,6 @@ namespace mdsplib
         /// DFT Class
         /// </summary>
         public DFT() { }
-
-        #region Properties
 
         private double mDFTScale;       // DFT ONLY Scale Factor
         private UInt32 mLengthTotal;    // mN + mZp
@@ -37,10 +33,6 @@ namespace mdsplib
             private set { }
             get { return !mOutOfMemory; }
         }
-
-        #endregion
-
-        #region Core DFT Routines
 
         /// <summary>
         /// Pre-Initializes the DFT.
@@ -121,8 +113,6 @@ namespace mdsplib
             return output;
         }
 
-        #region Private DFT Implementation details
-
         /// <summary>
         /// A brute force DFT - Uses Task / Parallel pattern
         /// </summary>
@@ -189,36 +179,5 @@ namespace mdsplib
 
             return result;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Utility Functions
-
-        /// <summary>
-        /// Return the Frequency Array for the currently defined DFT.
-        /// Takes into account the total number of points and zero padding points that were defined.
-        /// </summary>
-        /// <param name="samplingFrequencyHz"></param>
-        /// <returns></returns>
-        public double[] FrequencySpan(double samplingFrequencyHz)
-        {
-            UInt32 points = mLengthHalf;
-            double[] result = new double[points];
-            double stopValue = samplingFrequencyHz / 2.0;
-            double increment = stopValue / ((double)points - 1.0);
-
-            for (UInt32 i = 0; i < points; i++)
-                result[i] += increment * i;
-
-            return result;
-        }
-
     }
-
-    #endregion
-
-    #endregion
-
 }

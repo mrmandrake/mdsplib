@@ -6,10 +6,6 @@ using System.Linq;
 
 namespace mdsplib
 {
-
-
-    #region =====[ FFT Core Class ]======================================================
-
     /**
      * Performs an in-place complex FFT.
      *
@@ -55,8 +51,6 @@ namespace mdsplib
         /// </summary>
         public FFT() { }
 
-        #region Private Properties
-
         private double mFFTScale = 1.0;
         private UInt32 mLogN = 0;       // log2 of FFT size
         private UInt32 mN = 0;          // Time series length
@@ -73,16 +67,12 @@ namespace mdsplib
             public UInt32 revTgt;       // Target position post bit-reversal
         }
 
-        #endregion
-
-        #region FFT Core Functions
-
         /// <summary>
         /// Initialize the FFT. Must call first and this anytime the FFT setup changes.
         /// </summary>
         /// <param name="inputDataLength"></param>
         /// <param name="zeroPaddingLength"></param>
-        public void Initialize(UInt32 inputDataLength, UInt32 zeroPaddingLength = 0)
+        public FFT Initialize(UInt32 inputDataLength, UInt32 zeroPaddingLength = 0)
         {
             mN = inputDataLength;
 
@@ -120,7 +110,9 @@ namespace mdsplib
 
             // Specify target for bit reversal re-ordering.
             for (UInt32 k = 0; k < (mLengthTotal); k++)
-                mX[k].revTgt = BitReverse(k, mLogN);
+                mX[k].revTgt = DSP.Util.BitReverse(k, mLogN);
+
+            return this;
         }
 
         /// <summary>
@@ -267,56 +259,5 @@ namespace mdsplib
             result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
             return result;
         }
-
-        #region Private FFT Routines
-
-        /**
-         * Do bit reversal of specified number of places of an int
-         * For example, 1101 bit-reversed is 1011
-         *
-         * @param   x       Number to be bit-reverse.
-         * @param   numBits Number of bits in the number.
-         */
-        private UInt32 BitReverse(UInt32 x, UInt32 numBits)
-        {
-            UInt32 y = 0;
-            for (UInt32 i = 0; i < numBits; i++)
-            {
-                y <<= 1;
-                y |= x & 0x0001;
-                x >>= 1;
-            }
-            return y;
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Utility Functions
-
-        /// <summary>
-        /// Return the Frequency Array for the currently defined FFT.
-        /// Takes into account the total number of points and zero padding points that were defined.
-        /// </summary>
-        /// <param name="samplingFrequencyHz"></param>
-        /// <returns></returns>
-        public double[] FrequencySpan(double samplingFrequencyHz)
-        {
-            UInt32 points = (UInt32)mLengthHalf;
-            double[] result = new double[points];
-            double stopValue = samplingFrequencyHz / 2.0;
-            double increment = stopValue / ((double)points - 1.0);
-
-            for (Int32 i = 0; i < points; i++)
-                result[i] += increment * i;
-
-            return result;
-        }
-
-        #endregion
-
     }
-
-    #endregion
 }
