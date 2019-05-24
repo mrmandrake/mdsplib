@@ -11,6 +11,9 @@ Based on DSPLIB (Steve Hageman)</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>mr mandrake 2019</Copyright>
     <Product>manovella dsp library</Product>
+    <PackageProjectUrl>https://github.com/mrmandrake/mdsplib</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mrmandrake/mdsplib</RepositoryUrl>
+    <PackageTags>Dsp;fft;dft;stft</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

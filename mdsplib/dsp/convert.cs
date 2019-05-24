@@ -76,7 +76,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="magSquared"></param>
         /// <returns>double[] array</returns>
-        public static double[] ToMagnitudeDBV(this double[] magSquared)
+        public static double[] MagSquareToMagnitudeDBV(this double[] magSquared)
         {
             UInt32 np = (UInt32)magSquared.Length;
             double[] magDBV = new double[np];
