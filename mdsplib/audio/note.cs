@@ -5,8 +5,14 @@ using System.Numerics;
 using System.Linq;
 using System.Diagnostics;
 
-namespace mdsplib.Audio {
-    public class Note {
+namespace mdsplib.Audio
+{
+    /// <summary>
+    /// Note Frequency helper
+    /// </summary>
+
+    public class Note
+    {
 
         const UInt16 _OCTAVES = 9;
         const UInt16 _NOTES_OCTAVE = 12;
@@ -15,23 +21,32 @@ namespace mdsplib.Audio {
 
         public enum NoteEnum
         {
-            c = 1, 
-            csharp_dflat = 2, 
-            d = 3, 
-            dsharp_eflat = 4,
-            e = 5,
-            f = 6,
-            fsharp_gflat = 7,
-            g = 8,
-            gsharp_aflat = 9,
-            a = 10,
-            asharp_bflat = 11,
-            b = 12
+            C, CSharp, DFlat, D, DSharp, EFlat, E, F, FSharp, GFlat, G, GSharp, AFlat, A, ASharp, BFlat, B
         }
+
+        public static Dictionary<NoteEnum, uint> NoteNumber = new Dictionary<NoteEnum, uint>() {
+            { NoteEnum.C, 1 },
+            { NoteEnum.CSharp, 2 },
+            { NoteEnum.DFlat,3 },
+            { NoteEnum.D,3 },
+            { NoteEnum.DSharp,4 },
+            { NoteEnum.EFlat,5 },
+            { NoteEnum.E,6 },
+            { NoteEnum.F,7 },
+            { NoteEnum.FSharp,8 },
+            { NoteEnum.GFlat,9 },
+            { NoteEnum.G,10 },
+            { NoteEnum.GSharp,11 },
+            { NoteEnum.AFlat,12 },
+            { NoteEnum.A,13 },
+            { NoteEnum.ASharp,14 },
+            { NoteEnum.BFlat,15 },
+            { NoteEnum.B,16 }
+        };
 
         public static UInt32 ToKey(NoteEnum note, UInt32 octave)
         {
-            return  _NOTES_OCTAVE * octave + ((UInt32)note);
+            return _NOTES_OCTAVE * octave + NoteNumber[note];
         }
 
         public static Tuple<NoteEnum, UInt32> FromKey(UInt32 key)

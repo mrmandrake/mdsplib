@@ -3,47 +3,9 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Linq;
-
+using mdsplib.DSP;
 namespace mdsplib
-{
-    /**
-     * Performs an in-place complex FFT.
-     *
-     * Released under the MIT License
-     *
-     * Core FFT class based on,
-     *      Fast C# FFT - Copyright (c) 2010 Gerald T. Beauregard
-     *
-     * Changes to: Interface, scaling, zero padding, return values.
-     * Change to .NET Complex output types and integrated with my DSP Library. 
-     * Note: Complex Number Type requires .NET >= 4.0
-     * 
-     * These changes as noted above Copyright (c) 2016 Steven C. Hageman
-     *
-     * 
-     * Permission is hereby granted, free of charge, to any person obtaining a copy
-     * of this software and associated documentation files (the "Software"), to
-     * deal in the Software without restriction, including without limitation the
-     * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-     * sell copies of the Software, and to permit persons to whom the Software is
-     * furnished to do so, subject to the following conditions:
-     *
-     * The above copyright notice and this permission notice shall be included in
-     * all copies or substantial portions of the Software.
-     *
-     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-     * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-     * IN THE SOFTWARE.
-     */
-
-
-    /// <summary>
-    /// FFT Base Class
-    /// </summary>
+{ 
     public class FFT
     {
         /// <summary>
@@ -258,6 +220,21 @@ namespace mdsplib
             result[0] = new Complex(result[0].Real / Math.Sqrt(2), 0.0);
             result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
             return result;
+        }
+    }
+
+    public static class FFTExtension
+    {
+        public static Complex[] FFT(this Double[] a, mdsplib.DSP.Window.Type wnd = mdsplib.DSP.Window.Type.Hann)
+        {
+            double[] window = mdsplib.DSP.Window.Coefficients(wnd, (uint)a.Length);
+            double[] aWindowed = a.Multiply(window);
+            return new FFT().Initialize((uint)a.Length).Direct(aWindowed);
+        }
+
+        public static Complex[] iFFT(this Complex[] a)
+        {            
+            return new FFT().Initialize((uint)a.Length).Inverse(a);
         }
     }
 }

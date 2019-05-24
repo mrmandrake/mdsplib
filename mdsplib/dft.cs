@@ -5,10 +5,6 @@ using System.Diagnostics;
 
 namespace mdsplib
 {
-
-    /// <summary>
-    /// DFT Base Class
-    /// </summary>
     public class DFT
     {
         /// <summary>

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
+using mdsplib.DSP;
 
 namespace mdsplib
 {
@@ -19,8 +20,9 @@ namespace mdsplib
             // ciclo su array di campioni lunghi 1024 e sovrapposti al 50% tra loro
             for (uint i = 0; i < numWindow; i++)
             {
-                double[] windowSlice = DSP.Math.Multiply(DSP.Math.Slice(wavein, i * wlength2, wlength), wCoeff);               
-                result.Add(new FFT().Initialize(wlength).Direct(windowSlice));
+                double[] slice = wavein.Slice(i * wlength2, wlength);
+                double[] windowSlice = slice.Multiply(wCoeff);               
+                result.Add(windowSlice.FFT());
             }
             return result;
         }
@@ -33,8 +35,8 @@ namespace mdsplib
             uint offset = 0;
             foreach (var spectrum in stft)
             {
-                double[] slice = DSP.Convert.Complex.RealPart(new FFT().Initialize((uint)wlength).Inverse(spectrum));
-                DSP.Math.Add(waveout, slice, offset);
+                double[] slice = spectrum.iFFT().RealPart();
+                waveout.Add(slice, offset);
                 offset += (uint)slice.Length;
             }
             return null;

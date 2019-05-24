@@ -383,6 +383,7 @@ namespace UnitTestProject
             double[] wavein = mdsplib.DSP.Generate.Sine(110, fs, 2048);
             var stft = STFT.Direct(wavein);
             double[] reconst = STFT.Inverse(stft);
+            double[] error = mdsplib.DSP.Math.Subtract(wavein, reconst);A
         }
     }
 }

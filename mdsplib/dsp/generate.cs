@@ -8,6 +8,10 @@ using System.Diagnostics;
 namespace mdsplib.DSP
 {
 
+    /// <summary>
+    /// Simple signal generator helper
+    /// </summary>
+
     public static class Generate
     {
         /// <summary>
@@ -178,8 +182,7 @@ namespace mdsplib.DSP
 
             // Make an n length noise vector
             rval = Noise(points, amplitudeVrms);
-            rval = DSP.Math.Add(rval, dcV);
-
+            rval = rval.Add(dcV);
             return rval;
         }
 

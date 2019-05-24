@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.0-alpha</Version>
+    <Version>2.0.0-alpha</Version>
     <Authors>mr mandrake</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>DFT / iDFT &amp; FFT / iFFT lib
-Based on excellent DSPLIB (Steve Hageman)</Description>
+Based on DSPLIB (Steve Hageman)</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>mr mandrake 2019</Copyright>

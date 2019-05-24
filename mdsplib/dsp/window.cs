@@ -8,21 +8,6 @@ using System.Diagnostics;
 namespace mdsplib.DSP
 {
 
-    /**
-    *
-    * Many of the windows functions are based on the article,
-    *
-    *   Spectrum and spectral density estimation by the Discrete Fourier
-    *   transform (DFT), including a comprehensive list of window
-    *   functions and some new ﬂat-top windows.
-    *
-    *   G. Heinzel, A. Rudiger and R. Schilling,
-    *   Max-Planck-Institut fur Gravitationsphysik
-    * 
-    *   February 15, 2002
-    *
-    **/
-
     public static class Window
     {
         /// <summary>
