@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Linq;
 using mdsplib.DSP;
-namespace mdsplib
+
+namespace mdsplib.FT
 { 
     public class FFT
     {
@@ -216,9 +217,15 @@ namespace mdsplib
             Complex[] result = new Complex[mLengthTotal];
             Array.Copy(unswizzle, result, mLengthTotal);
 
-            // DC and Fs/2 Points are scaled differently, since they have only a real part
-            result[0] = new Complex(result[0].Real / Math.Sqrt(2), 0.0);
-            result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
+            if (direct)
+            {
+                // DC and Fs/2 Points are scaled differently, since they have only a real part
+                result[0] = new Complex(result[0].Real / Math.Sqrt(2), 0.0);
+                result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
+            }
+            else
+                result.Multiply(1 / System.Math.Sqrt(2));
+
             return result;
         }
     }

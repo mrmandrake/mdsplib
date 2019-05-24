@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0-alpha</Version>
+    <Version>2.0.3-alpha</Version>
     <Authors>mr mandrake</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>DFT / iDFT &amp; FFT / iFFT lib

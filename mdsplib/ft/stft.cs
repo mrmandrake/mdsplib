@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using mdsplib.DSP;
 
-namespace mdsplib
+namespace mdsplib.FT
 {
     public static class STFT
     {

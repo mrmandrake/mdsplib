@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace mdsplib
+namespace mdsplib.FT
 {
     public class DFT
     {

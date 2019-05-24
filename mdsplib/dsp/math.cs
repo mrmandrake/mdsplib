@@ -10,7 +10,7 @@ namespace mdsplib.DSP
     /// <summary>
     /// Double[] Array Math Operations (All Static)
     /// </summary>
-    public static class DoubleMathExtension
+    public static class MathExtension
     {
 
         /// <summary>
@@ -30,6 +30,18 @@ namespace mdsplib.DSP
         public static double[] Slice(this double[] arrayin, uint start, uint length)
         {
             return arrayin.Skip((int)start).Take((int)length).ToArray();
+        }
+
+        /// <summary>
+        /// result[] = a[] * b
+        /// </summary>
+        public static Complex[] Multiply(this Complex[] a, Double b)
+        {
+            Complex[] result = new Complex[a.Length];
+            for (UInt32 i = 0; i < a.Length; i++)
+                result[i] = new Complex(a[i].Real * b, a[i].Imaginary * b);
+
+            return result;
         }
 
         /// <summary>
