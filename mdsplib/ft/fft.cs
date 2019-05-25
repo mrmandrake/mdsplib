@@ -224,7 +224,7 @@ namespace mdsplib.FT
                 result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
             }
             else
-                result.Multiply(1 / System.Math.Sqrt(2));
+                result.Multiply(1 / System.Math.Pow(System.Math.Sqrt(2), 2));
 
             return result;
         }
@@ -232,11 +232,15 @@ namespace mdsplib.FT
 
     public static class FFTExtension
     {
-        public static Complex[] FFT(this Double[] a, mdsplib.DSP.Window.Type wnd = mdsplib.DSP.Window.Type.Hann)
+        public static double[] Window(this double[] a, mdsplib.DSP.Window.Type wnd = mdsplib.DSP.Window.Type.Hann)
         {
             double[] window = mdsplib.DSP.Window.Coefficients(wnd, (uint)a.Length);
-            double[] aWindowed = a.Multiply(window);
-            return new FFT().Initialize((uint)a.Length).Direct(aWindowed);
+            return a.Multiply(window);
+        }
+
+        public static Complex[] FFT(this Double[] a)
+        {
+            return new FFT().Initialize((uint)a.Length).Direct(a);
         }
 
         public static Complex[] iFFT(this Complex[] a)

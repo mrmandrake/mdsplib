@@ -9,24 +9,6 @@ namespace mdsplib.DSP
 {
     public static class Util
     {
-        /// <summary>
-        /// Return the Frequency Array for the currently defined FFT.
-        /// Takes into account the total number of points and zero padding points that were defined.
-        /// </summary>
-        /// <param name="samplingFrequencyHz"></param>
-        /// <returns></returns>
-        public static double[] FrequencySpan(double samplingFrequencyHz, UInt32 points)
-        {
-            double[] result = new double[points];
-            double stopValue = samplingFrequencyHz / 2.0;
-            double increment = stopValue / ((double)points - 1.0);
-
-            for (Int32 i = 0; i < points; i++)
-                result[i] += increment * i;
-
-            return result;
-        }
-
         /// <Summary>
         /// Do bit reversal of specified number of places of an int
         ///For example, 1101 bit-reversed is 1011
@@ -44,6 +26,49 @@ namespace mdsplib.DSP
                 x >>= 1;
             }
             return y;
+        }
+
+        public static class FFT
+        {
+            /// <summary>
+            /// Nyquist Frequency
+            /// </summary>
+            /// <param name="fs"></param>
+            /// <returns></returns>
+            public static double Nyquist(double fs) { return fs / 2; }
+
+            /// <summary>
+            /// Number of bins
+            /// </summary>
+            /// <param name="wlen"></param>
+            /// <returns></returns>
+            public static UInt32 Bins(UInt32 wlen) { return wlen / 2; }
+
+            /// <summary>
+            /// Frequency band of a bin
+            /// </summary>
+            /// <param name="wlen"></param>
+            /// <param name="fs"></param>
+            /// <returns></returns>
+            public static double Fb(UInt32 wlen, double fs) { return Nyquist(fs) / Bins(wlen); }
+
+            /// <summary>
+            /// Return the Frequency Array for the currently defined FFT.
+            /// Takes into account the total number of points and zero padding points that were defined.
+            /// </summary>
+            /// <param name="samplingFrequencyHz"></param>
+            /// <returns></returns>
+            public static double[] FrequencySpan(double samplingFrequencyHz, UInt32 points)
+            {
+                double[] result = new double[points];
+                double stopValue = Nyquist(samplingFrequencyHz);
+                double increment = stopValue / ((double)points - 1.0);
+
+                for (Int32 i = 0; i < points; i++)
+                    result[i] += increment * i;
+
+                return result;
+            }
         }
 
     }

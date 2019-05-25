@@ -37,7 +37,7 @@ namespace mdsplib.FT
         /// <param name="inputDataLength"></param>
         /// <param name="zeroPaddingLength"></param>
         /// <param name="forceNoCache">True will force the DFT to not use pre-calculated caching.</param>
-        public void Initialize(UInt32 inputDataLength, UInt32 zeroPaddingLength = 0, bool forceNoCache = false)
+        public DFT Initialize(UInt32 inputDataLength, UInt32 zeroPaddingLength = 0, bool forceNoCache = false)
         {
             // Save the sizes for later
             mLengthTotal = inputDataLength + zeroPaddingLength;
@@ -53,7 +53,7 @@ namespace mdsplib.FT
                 // If optional No Cache - just flag that the cache failed 
                 // then the routines will use the brute force DFT methods.
                 mOutOfMemory = true;
-                return;
+                return null;
             }
 
             // Try to make pre-calculated sin/cos arrays. If not enough memory, then 
@@ -84,6 +84,8 @@ namespace mdsplib.FT
                 // So, will use brute force DFT
                 mOutOfMemory = true;
             }
+
+            return this;
         }
 
 
@@ -123,9 +125,7 @@ namespace mdsplib.FT
             Complex[] result = new Complex[m];
             double sf = 2.0 * Math.PI / n;
 
-            Parallel.For(0, m, (j) =>
-            //for (UInt32 j = 0; j < m; j++)
-            {
+            Parallel.For(0, m, (j) => {
                 double a = j * sf;
                 for (UInt32 k = 0; k < n; k++)
                 {
@@ -174,6 +174,13 @@ namespace mdsplib.FT
             result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
 
             return result;
+        }
+    }
+
+    public static class DFTExtension {
+        public static Complex[] DFT(this double[] val)
+        {
+            return new DFT().Initialize((UInt32)val.Length).Execute(val);
         }
     }
 }

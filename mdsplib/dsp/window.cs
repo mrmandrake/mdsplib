@@ -347,6 +347,11 @@ namespace mdsplib.DSP
             return winCoeffs;
         }
 
+        public static double Duration(UInt32 points, double fs)
+        {
+            return points / fs;
+        }
+
         #endregion
 
     }

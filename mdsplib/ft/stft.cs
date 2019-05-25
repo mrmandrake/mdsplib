@@ -8,26 +8,22 @@ using mdsplib.DSP;
 
 namespace mdsplib.FT
 {
-    public static class STFT
+    public class STFT
     {
-        public static List<Complex[]> Direct(this double[] wavein, DSP.Window.Type wnd = DSP.Window.Type.Hann, UInt32 wlength = 1024)
+        public static List<Complex[]> Direct(double[] wavein, DSP.Window.Type wnd = DSP.Window.Type.Hann, UInt32 wlength = 1024)
         {
             var wlength2 = wlength / 2;
             double numWindow = (wavein.Length / (wlength / 2)) - 1;
-            double[] wCoeff = DSP.Window.Coefficients(wnd, wlength);
             List<Complex[]> result = new List<Complex[]>();
 
             // ciclo su array di campioni lunghi 1024 e sovrapposti al 50% tra loro
             for (uint i = 0; i < numWindow; i++)
-            {
-                double[] slice = wavein.Slice(i * wlength2, wlength);
-                double[] windowSlice = slice.Multiply(wCoeff);               
-                result.Add(windowSlice.FFT());
-            }
+                result.Add(wavein.Slice(i * wlength2, wlength).Window(Window.Type.Hann).FFT());
+
             return result;
         }
 
-        public static double[] Inverse(this List<Complex[]> stft) {
+        public static double[] Inverse(List<Complex[]> stft) {
             int wlength = stft.First().Length;
             int totalLength = (stft.Count() + 1) * wlength / 2;
 
@@ -36,10 +32,23 @@ namespace mdsplib.FT
             foreach (var spectrum in stft)
             {
                 double[] slice = spectrum.iFFT().RealPart();
-                waveout.Add(slice, offset);
-                offset += (uint)slice.Length;
+                waveout = waveout.Add(slice, offset);
+                offset += (uint)(slice.Length / 2);
             }
-            return null;
+            return waveout;
+        }
+    }
+
+    public static class STFTExtension
+    {
+        public static List<Complex[]> STFT(this double[] wavein, DSP.Window.Type wnd = DSP.Window.Type.Hann, UInt32 wlength = 1024)
+        {
+            return mdsplib.FT.STFT.Direct(wavein, wnd, wlength);
+        }
+
+        public static double[] iSTFT(this List<Complex[]> stft)
+        {
+            return mdsplib.FT.STFT.Inverse(stft);
         }
     }
 }

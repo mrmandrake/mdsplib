@@ -40,7 +40,7 @@ namespace UnitTestProject
             // contains a properly scaled Spectrum from 0 - 50,000 Hz
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -77,7 +77,7 @@ namespace UnitTestProject
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -111,7 +111,7 @@ namespace UnitTestProject
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -150,7 +150,7 @@ namespace UnitTestProject
             double[] logMagSpectrum = lmSpectrum.ToMagnitudeDBV();
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -198,7 +198,7 @@ namespace UnitTestProject
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -274,7 +274,7 @@ namespace UnitTestProject
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
@@ -309,7 +309,7 @@ namespace UnitTestProject
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
-            double[] freqSpan = Util.FrequencySpan(samplingRate, length);
+            double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
 
             // At this point a XY Scatter plot can be generated from,
             // X axis => freqSpan
