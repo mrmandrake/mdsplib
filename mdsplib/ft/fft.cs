@@ -224,7 +224,7 @@ namespace mdsplib.FT
                 result[mLengthHalf - 1] = new Complex(result[mLengthHalf - 1].Real / Math.Sqrt(2), 0.0);
             }
             else
-                result.Multiply(1 / System.Math.Pow(System.Math.Sqrt(2), 2));
+                result = result.Multiply(1 / System.Math.Sqrt(2));
 
             return result;
         }

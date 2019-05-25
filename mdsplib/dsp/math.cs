@@ -200,5 +200,21 @@ namespace mdsplib.DSP
             return (a.Subtract(mean));
         }
 
+        /// <summary>
+        /// Cast from float array
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static double[] Cast(this float[] buf)
+        {
+            return buf.Select(a => (double)a).ToArray();
+        }
+
+        public static double[] Normalize(this double[] val)
+        {
+            double max = val.Max();
+            return val.Select(a => a / max).ToArray();
+        }
+
     }
 }

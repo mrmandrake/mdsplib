@@ -50,5 +50,17 @@ namespace mdsplib.FT
         {
             return mdsplib.FT.STFT.Inverse(stft);
         }
+
+        public static double[,] Spectrum(this List<Complex[]> stft)
+        {
+            double[,] spectrum = new double[stft.First().Length / 2, stft.Count()];
+            for (int j = 0; j < stft.Count(); j++)
+            {
+                Complex[] s = stft[j];
+                for (int i = 0; i < s.Length / 2; i++)
+                    spectrum[j, i] = s[i].Magnitude;
+            }
+            return spectrum;
+        }
     }
 }
