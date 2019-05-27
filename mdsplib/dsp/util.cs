@@ -4,6 +4,7 @@ using System.Text;
 using System.Numerics;
 using System.Linq;
 using System.Diagnostics;
+using System.IO;
 
 namespace mdsplib.DSP
 {
@@ -71,5 +72,28 @@ namespace mdsplib.DSP
             }
         }
 
+        public static double[] ZeroPad(this double[] val, UInt16 padLen)
+        {
+            double[] result = new double[val.Length + 2 * padLen];
+            for (Int32 i = 0; i < val.Length; i++)
+                result[padLen + i] = val[i];
+
+            return result;
+        }
+
+        public static void Dump(this double[] val, string path)
+        {
+            File.WriteAllLines(path, val.Select(d => d.ToString()));
+        }
+
+        public static void Dump(this Complex[] val, string path)
+        {
+            File.WriteAllLines(path, val.Select(d => d.Real.ToString() + "," + d.Imaginary.ToString()));
+        }
+
+        public static void Dump(this List<Complex[]> val, string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
