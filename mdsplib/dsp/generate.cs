@@ -102,7 +102,7 @@ namespace mdsplib.DSP
                 for (int k = 1; k < harmonics; k++)
                     acc += System.Math.Pow(-1, k) * System.Math.Sin(Const._2PI * k * time * frequencyHz) / k;
 
-                rval[i] = 0.5 - System.Math.Pow(Const._2PI, -1) * acc;
+                rval[i] = 4.0 * System.Math.Pow(Const._2PI, -1) * acc;
             }
 
             return rval;
@@ -118,10 +118,11 @@ namespace mdsplib.DSP
 
                 double acc = 0;
                 for (int k = 1; k < harmonics; k++)
-                    acc += System.Math.Pow(-1, (k - 1.0) / 2.0) / System.Math.Pow(k, 2) * System.Math.Sin(System.Math.PI * k * time * frequencyHz);
+                    acc += System.Math.Pow(-1, k) * System.Math.Sin((2 * k + 1) * time * frequencyHz) / System.Math.Pow(2 * k + 1, 2);
 
                 rval[i] = (8 / System.Math.Pow(System.Math.PI, 2)) * acc;
             }
+
             return rval;
         }
 
