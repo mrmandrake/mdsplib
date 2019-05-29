@@ -238,14 +238,14 @@ namespace mdsplib.FT
             return a.Multiply(window);
         }
 
-        public static Complex[] FFT(this Double[] a)
+        public static Complex[] FFT(this Double[] a, UInt32 zeroPaddingLength = 0)
         {
-            return new FFT().Initialize((uint)a.Length).Direct(a);
+            return new FFT().Initialize((uint)a.Length, zeroPaddingLength).Direct(a);
         }
 
-        public static Complex[] iFFT(this Complex[] a)
+        public static Complex[] iFFT(this Complex[] a, UInt32 zeroPaddingLength = 0)
         {            
-            return new FFT().Initialize((uint)a.Length).Inverse(a);
+            return new FFT().Initialize((uint)a.Length, zeroPaddingLength).Inverse(a);
         }
     }
 }

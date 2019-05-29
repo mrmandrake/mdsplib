@@ -187,6 +187,27 @@ namespace mdsplib.DSP
             return rval;
         }
 
+        public static double[] Triangle(UInt32 uparea, UInt32 points)
+        {
+            double[] rval = new double[points];
+            for (uint i = 0; i < uparea / 2; i++)
+                rval[i] = 2 / uparea * i;
+
+            for (uint i = uparea / 2; i < uparea; i++)
+                rval[i] = 2 * (uparea - i) / uparea;
+
+            return rval;
+        }
+
+        public static double[] Rectangle(UInt32 uparea, UInt32 points)
+        {
+            double[] rval = new double[points];
+            for (int i = 0; i < uparea; i++)
+                rval[i] = 1.0;
+
+            return rval;
+        }
+
         #region Private - Random Number Generator Core
 
         //=====[ Gaussian Noise ]=====

@@ -95,5 +95,14 @@ namespace mdsplib.DSP
         {
             throw new NotImplementedException();
         }
+
+        public static double NextPowerOf2(double val)
+        {
+            double nextPowerOf2 = 1;
+            while (nextPowerOf2 < val)
+                nextPowerOf2 *= 2;
+
+            return nextPowerOf2;
+        }
     }
 }

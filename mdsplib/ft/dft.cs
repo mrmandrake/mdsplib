@@ -178,9 +178,9 @@ namespace mdsplib.FT
     }
 
     public static class DFTExtension {
-        public static Complex[] DFT(this double[] val)
+        public static Complex[] DFT(this double[] val, UInt32 zeroPaddingLength = 0)
         {
-            return new DFT().Initialize((UInt32)val.Length).Execute(val);
+            return new DFT().Initialize((UInt32)val.Length, zeroPaddingLength).Execute(val);
         }
     }
 }
