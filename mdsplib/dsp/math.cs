@@ -216,5 +216,27 @@ namespace mdsplib.DSP
             return val.Select(a => a / max).ToArray();
         }
 
+        public static Complex[] Shift(this Complex[] val, int shift)
+        {
+            Complex[] result = new Complex[val.Length];
+            Array.Copy(val, shift, result, 0, (shift > 0) ? val.Length - shift : val.Length);
+            if (shift > 0)
+                for (int i = 0; i < shift; i++)
+                    val[i] = new Complex(0, 0);
+            else
+                for (int i = 0; i < val.Length; i++)
+                    val[i] = new Complex(0, 0);
+
+            return result;
+        }
+
+        public static List<Complex[]> Shift(List<Complex[]> val, int shift)
+        {
+            var result = new System.Collections.Generic.List<System.Numerics.Complex[]>();
+            foreach (var slice in val)
+                result.Add(Shift(slice, shift));
+
+            return result;
+        }
     }
 }

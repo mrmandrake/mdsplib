@@ -245,7 +245,8 @@ namespace mdsplib.FT
 
         public static Complex[] iFFT(this Complex[] a, UInt32 zeroPaddingLength = 0)
         {            
-            return new FFT().Initialize((uint)a.Length, zeroPaddingLength).Inverse(a);
+            var result = new FFT().Initialize((uint)a.Length).Inverse(a);
+            return result.Take(result.Length - (int)zeroPaddingLength).ToArray();
         }
     }
 }

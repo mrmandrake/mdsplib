@@ -17,7 +17,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="magnitude"></param>
         /// <returns></returns>
-        public static double[] ToMagnitudeSquared(this double[] magnitude)
+        public static double[] MagnitudeSquared(this double[] magnitude)
         {
             UInt32 np = (UInt32)magnitude.Length;
             double[] mag2 = new double[np];
@@ -34,7 +34,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="magnitude"></param>
         /// <returns>double[] array</returns>
-        public static double[] ToMagnitudeDBV(this double[] magnitude)
+        public static double[] MagnitudeDBV(this double[] magnitude)
         {
             UInt32 np = (UInt32)magnitude.Length;
             double[] magDBV = new double[np];
@@ -59,7 +59,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="magSquared"></param>
         /// <returns>double[] array</returns>
-        public static double[] ToMagnitude(this double[] magSquared)
+        public static double[] Magnitude(this double[] magSquared)
         {
             UInt32 np = (UInt32)magSquared.Length;
             double[] mag = new double[np];
@@ -110,7 +110,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="rawFFT"></param>
         /// <returns>double[] MagSquared Format</returns>
-        public static double[] ToMagnitudeSquared(this Complex[] rawFFT)
+        public static double[] MagnitudeSquared(this Complex[] rawFFT)
         {
             UInt32 np = (UInt32)rawFFT.Length;
             double[] magSquared = new double[np];
@@ -128,7 +128,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="rawFFT"></param>
         /// <returns>double[] Magnitude Format (Vrms)</returns>
-        public static double[] ToMagnitude(this Complex[] rawFFT)
+        public static double[] Magnitude(this Complex[] rawFFT)
         {
             UInt32 np = (UInt32)rawFFT.Length;
             double[] mag = new double[np];
@@ -145,7 +145,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="rawFFT"> Complex[] input array"></param>
         /// <returns>double[] Magnitude Format (dBV)</returns>
-        public static double[] ToMagnitudeDBV(this Complex[] rawFFT)
+        public static double[] MagnitudeDBV(this Complex[] rawFFT)
         {
             UInt32 np = (UInt32)rawFFT.Length;
             double[] mag = new double[np];
@@ -167,7 +167,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="rawFFT"> Complex[] input array"></param>
         /// <returns>double[] Phase (Degrees)</returns>
-        public static double[] ToPhaseDegrees(this Complex[] rawFFT)
+        public static double[] PhaseDegrees(this Complex[] rawFFT)
         {
             double sf = 180.0 / System.Math.PI; // Degrees per Radian scale factor
 
@@ -186,7 +186,7 @@ namespace mdsplib.DSP
         /// </summary>
         /// <param name="rawFFT"> Complex[] input array"></param>
         /// <returns>double[] Phase (Degrees)</returns>
-        public static double[] ToPhaseRadians(this Complex[] rawFFT)
+        public static double[] PhaseRadians(this Complex[] rawFFT)
         {
             UInt32 np = (UInt32)rawFFT.Length;
             double[] phase = new double[np];
@@ -196,6 +196,11 @@ namespace mdsplib.DSP
             }
 
             return phase;
+        }
+
+        public static double[] Phase(this Complex[] rawFFT)
+        {
+            return rawFFT.PhaseRadians();
         }
     }
 }
