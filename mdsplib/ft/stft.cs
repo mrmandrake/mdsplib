@@ -37,6 +37,22 @@ namespace mdsplib.FT
             }
             return waveout;
         }
+
+        public static double[] InverseNoOverlap(List<Complex[]> stft, UInt32 wlen, UInt32 fftPad)
+        {
+            int wlength = stft.First().Length;
+            int totalLength = stft.Count() * (int)wlen;
+
+            var waveout = new double[totalLength];
+            uint offset = 0;
+            foreach (var spectrum in stft)
+            {
+                double[] slice = spectrum.iFFT().RealPart();
+                waveout = waveout.Add(slice.Slice(0, wlen), offset);
+                offset += wlen;
+            }
+            return waveout;
+        }
     }
 
     public static class STFTExtension
@@ -61,6 +77,11 @@ namespace mdsplib.FT
         public static double[] iSTFT(this List<Complex[]> stft, UInt32 wlength = 1024, UInt32 fftpad = 0)
         {
             return mdsplib.FT.STFT.Inverse(stft, wlength, fftpad);
+        }
+
+        public static double[] iSTFTNoOverlap(this List<Complex[]> stft, UInt32 wlength = 1024, UInt32 fftpad = 0)
+        {
+            return mdsplib.FT.STFT.InverseNoOverlap(stft, wlength, fftpad);
         }
 
         public static double[,] Magnitude(this List<Complex[]> stft)

@@ -6,16 +6,9 @@ using System.Linq;
 using System.Diagnostics;
 
 namespace mdsplib.DSP
-{
-    /// <summary>
-    /// Double[] Array Math Operations (All Static)
-    /// </summary>
+{    
     public static class MathExtension
     {
-
-        /// <summary>
-        /// result[] = a[] * b[]
-        /// </summary>
         public static Double[] Multiply(this Double[] a, Double[] b)
         {
             Debug.Assert(a.Length == b.Length, "Length of arrays a[] and b[] must match.");
@@ -31,10 +24,7 @@ namespace mdsplib.DSP
         {
             return arrayin.Skip((int)start).Take((int)length).ToArray();
         }
-
-        /// <summary>
-        /// result[] = a[] * b
-        /// </summary>
+        
         public static Complex[] Multiply(this Complex[] a, Double b)
         {
             Complex[] result = new Complex[a.Length];
@@ -43,10 +33,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] * b
-        /// </summary>
+        
         public static Double[] Multiply(this Double[] a, Double b)
         {
             double[] result = new double[a.Length];
@@ -55,10 +42,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] + b[]
-        /// </summary>
+        
         public static Double[] Add(this Double[] a, Double[] b)
         {
             Debug.Assert(a.Length == b.Length, "Length of arrays a[] and b[] must match.");
@@ -66,6 +50,17 @@ namespace mdsplib.DSP
             double[] result = new double[a.Length];
             for (UInt32 i = 0; i < a.Length; i++)
                 result[i] = a[i] + b[i];
+
+            return result;
+        }
+
+        public static Complex[] Add(this Complex[] a, Complex[] b)
+        {
+            Debug.Assert(a.Length == b.Length, "Length of arrays a[] and b[] must match.");
+
+            Complex[] result = new Complex[a.Length];
+            for (UInt32 i = 0; i < a.Length; i++)
+                result[i] = new Complex(a[i].Real + b[i].Real, a[i].Imaginary + b[i].Imaginary);
 
             return result;
         }
@@ -79,10 +74,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] + b
-        /// </summary>
+        
         public static Double[] Add(this Double[] a, Double b)
         {
             double[] result = new double[a.Length];
@@ -91,10 +83,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] - b[]
-        /// </summary>
+        
         public static Double[] Subtract(this Double[] a, Double[] b)
         {
             Debug.Assert(a.Length == b.Length, "Length of arrays a[] and b[] must match.");
@@ -105,10 +94,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] - b
-        /// </summary>
+        
         public static Double[] Subtract(this Double[] a, Double b)
         {
             double[] result = new double[a.Length];
@@ -117,10 +103,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] / b[]
-        /// </summary>
+        
         public static Double[] Divide(this Double[] a, Double[] b)
         {
             Debug.Assert(a.Length == b.Length, "Length of arrays a[] and b[] must match.");
@@ -131,10 +114,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// result[] = a[] / b
-        /// </summary>
+        
         public static Double[] Divide(this Double[] a, Double b)
         {
             double[] result = new double[a.Length];
@@ -143,10 +123,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// Square root of a[].
-        /// </summary>
+        
         public static double[] Sqrt(this double[] a)
         {
             double[] result = new double[a.Length];
@@ -155,10 +132,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// Squares a[].
-        /// </summary>
+        
         public static double[] Square(this double[] a)
         {
             double[] result = new double[a.Length];
@@ -167,10 +141,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// Log10 a[].
-        /// </summary>
+        
         public static double[] Log10(this double[] a)
         {
             double[] result = new double[a.Length];
@@ -185,10 +156,7 @@ namespace mdsplib.DSP
 
             return result;
         }
-
-        /// <summary>
-        /// Removes mean value from a[].
-        /// </summary>
+        
         public static double[] RemoveMean(this double[] a)
         {
             double sum = 0.0;
@@ -199,12 +167,7 @@ namespace mdsplib.DSP
 
             return (a.Subtract(mean));
         }
-
-        /// <summary>
-        /// Cast from float array
-        /// </summary>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static double[] Cast(this float[] buf)
         {
             return buf.Select(a => (double)a).ToArray();

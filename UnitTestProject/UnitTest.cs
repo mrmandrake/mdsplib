@@ -34,7 +34,7 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(inputSignal);
 
             // Convert the complex spectrum to magnitude
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
 
             // Note: At this point lmSpectrum is a 501 byte array that 
             // contains a properly scaled Spectrum from 0 - 50,000 Hz
@@ -71,7 +71,7 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Format
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
 
             // Properly scale the spectrum for the added window
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
@@ -105,7 +105,7 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Format
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
 
             // Properly scale the spectrum for the added window
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
@@ -141,13 +141,13 @@ namespace UnitTestProject
             Complex[] cSpectrum = dft.Execute(wInputData);
 
             // Convert the complex spectrum to note: Magnitude Format
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
 
             // Properly scale the spectrum for the added window
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
 
             // Convert from linear magnitude to log magnitude format
-            double[] logMagSpectrum = lmSpectrum.ToMagnitudeDBV();
+            double[] logMagSpectrum = lmSpectrum.MagnitudeDBV();
 
             // For plotting on an XY Scatter plot generate the X Axis frequency Span
             double[] freqSpan = Util.FFT.FrequencySpan(samplingRate, length);
@@ -185,14 +185,14 @@ namespace UnitTestProject
 
                 // DFT the noise -> Convert -> Sum
                 Complex[] cSpectrum = dft.Execute(inputSignal);
-                double[] mag2 = cSpectrum.ToMagnitudeSquared();
+                double[] mag2 = cSpectrum.MagnitudeSquared();
                 noiseSum = (N == 0) ? noiseSum : noiseSum = noiseSum.Add(mag2);                    
             }
 
             // Calculate Average, convert to magnitude format
             // See text for the reasons to use Mag^2 format.
             double[] averageNoise = noiseSum.Divide(N);
-            double[] lmSpectrum = averageNoise.ToMagnitude();
+            double[] lmSpectrum = averageNoise.Magnitude();
 
             // Properly scale the spectrum for the added window
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
@@ -233,8 +233,8 @@ namespace UnitTestProject
                 //double[] lmSpectrumTestPhase = DSPLib.DSP.ConvertComplex.ToMagnitude(cSpectrumPhase);
 
                 // Extract the phase of bin 128
-                double[] resultArrayRef = cSpectrumRef.ToPhaseDegrees();
-                double[] resultArrayPhase = cSpectrumPhase.ToPhaseDegrees();
+                double[] resultArrayRef = cSpectrumRef.PhaseDegrees();
+                double[] resultArrayPhase = cSpectrumPhase.PhaseDegrees();
                 resultPhase[phase] = resultArrayPhase[128] - resultArrayRef[128];
             }
 
@@ -268,7 +268,7 @@ namespace UnitTestProject
 
             // Convert the complex spectrum to note: Magnitude Squared Format
             // See text for the reasons to use Mag^2 format.
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
 
             // Properly scale the spectrum for the added window
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
@@ -303,7 +303,7 @@ namespace UnitTestProject
 
             // Convert the complex spectrum to note: Magnitude Squared Format
             // See text for the reasons to use Mag^2 format.
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
 
             // Properly scale the spectrum for the added window
             lmSpectrum = lmSpectrum.Multiply(wScaleFactor);
@@ -343,12 +343,12 @@ namespace UnitTestProject
                 Complex[] cSpectrumPhase = fft.Direct(inputSignalPhase);
 
                 // Magnitude Format - Just as a test point
-                double[] lmSpectrumTest = cSpectrumRef.ToMagnitude();
+                double[] lmSpectrumTest = cSpectrumRef.Magnitude();
                 UInt32 peakLocation = mdsplib.DSP.Analyze.FindMaxPosition(lmSpectrumTest);
 
                 // Extract the phase of 'peak value' bin
-                double[] resultArrayRef = cSpectrumRef.ToPhaseDegrees();
-                double[] resultArrayPhase = cSpectrumPhase.ToPhaseDegrees();
+                double[] resultArrayRef = cSpectrumRef.PhaseDegrees();
+                double[] resultArrayPhase = cSpectrumPhase.PhaseDegrees();
                 resultPhase[phase] = resultArrayPhase[peakLocation] - resultArrayRef[peakLocation];
             }
             unwrapPhase = mdsplib.DSP.Analyze.UnwrapPhaseDegrees(resultPhase);
@@ -367,7 +367,7 @@ namespace UnitTestProject
             double[] inputSignalRef = inputSignal.Multiply(inputSignal);
 
             Complex[] cSpectrum = fft.Direct(inputSignalRef);
-            double[] lmSpectrum = cSpectrum.ToMagnitude();
+            double[] lmSpectrum = cSpectrum.Magnitude();
             Complex[] cSpectrumI = fft.Inverse(cSpectrum);
         }
 
@@ -377,7 +377,7 @@ namespace UnitTestProject
             UInt32 fs = 44100;
             double[] wavein = mdsplib.DSP.Generate.Sine(110, fs, 2048);
             var stft = STFT.Direct(wavein);
-            double[] reconst = STFT.Inverse(stft);
+            double[] reconst = STFT.Inverse(stft, 2048, 0);
             double[] error = wavein.Subtract(reconst);
         }
     }
